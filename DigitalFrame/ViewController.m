@@ -14,7 +14,7 @@
 
 @implementation ViewController
 // 헤더파일에서 정의한 상태 변수들을 동기화시켜준다
-@synthesize imgView, toggleButton;
+@synthesize imgView, toggleButton, speedSlider, speedLabel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -36,7 +36,7 @@
                            [UIImage imageNamed:@"15.jpg"],
                            nil];
     imgView.animationImages = cuteImages;
-    imgView.animationDuration = 15.0;
+    imgView.animationDuration = 7.5;
 //    imgView.startAnimating;
 }
 
@@ -48,6 +48,17 @@
         [imgView startAnimating];
         [toggleButton setTitle: @"Stop" forState:UIControlStateNormal];
     }
+}
+
+-(IBAction)changeSpeedAction: (id)sender {
+    // 슬라이더를 오른쪽으로 옮길수록 전환속도가 빨라지도록 하기
+    imgView.animationDuration = 15 - speedSlider.value;
+    [toggleButton setTitle: @"Stop" forState:UIControlStateNormal];
+    [imgView startAnimating];
+    
+    // Label의 숫자는 소수점 둘쨰자리까지만 나타나도록 하기 
+    NSString *str = [[NSString alloc] initWithFormat:@"%.2f", speedSlider.value];
+    speedLabel.text = str;
 }
 
 
